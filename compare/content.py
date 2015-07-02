@@ -13,13 +13,12 @@ def table(puzzles, records, username):
     columns = ['Segment', 'Cycles', 'Nodes', 'Instructions']
     table = E.table(E.tr(*[E.th(name) for name in columns]))
     for puzzle in puzzles:
+        number = puzzle['number']
         row = E.tr()
-        row.append(E.td(puzzle.name))
+        row.append(E.td(puzzle['name']))
         for key in ['cycles', 'nodes', 'instructions']:
-            best_known = getattr(puzzle, key)
-            personal_best = None
-            if puzzle.number in records:
-                personal_best = getattr(records[puzzle.number], key, None)
+            best_known = puzzle[key]
+            personal_best = records[number][key]
             text = None
             cost_text = None
             if personal_best is None:
@@ -28,11 +27,10 @@ def table(puzzles, records, username):
                 text = '%d better!' % (best_known - personal_best)
             elif personal_best == best_known:
                 text = CHECKMARK
-                if getattr(puzzle, '%s_name' % key) == username:
+                if puzzle['%s_name'] == username:
                     text = RECORD_HOLDER
-                costkey = '%s_cost' % key
-                cost = getattr(records[puzzle.number], costkey, None)
-                best_cost = getattr(puzzle, costkey)
+                cost = records[number]['%s_cost' % key]
+                best_cost = puzzle['%s_cost' % key]
                 if cost is None:
                     cost_text = '(unknown cost)'
                 elif cost > best_cost:
