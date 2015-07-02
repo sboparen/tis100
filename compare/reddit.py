@@ -7,8 +7,7 @@ import urllib2
 from lxml import etree
 
 URL = 'http://www.reddit.com/r/tis100/comments/391heb/'
-
-
+METRICS = ['cycles', 'nodes', 'instructions']
 class puzzle(object):
     pass
 
@@ -23,21 +22,23 @@ def parse(data):
     for body in table.findall('tbody'):
         for row in body.getchildren():
             p = puzzle()
-            name, cycles, nodes, instructions = \
-                [el.text for el in row.getchildren()]
+            cells = [el.text for el in row.getchildren()]
+            assert len(cells) == 4
+            name = cells[0]
             if name == 'Totals':
                 continue
             p.number = name[:name.index(' ')]
             p.name = name[name.index(' ')+1:]
-            cycles = [int(x) for x in cycles.split(' - ')[-1].split('/')]
-            p.cycles = cycles[0]
-            p.cycles_cost = cycles[0] * cycles[1] * cycles[2]
-            nodes = [int(x) for x in nodes.split(' - ')[-1].split('/')]
-            p.nodes = nodes[1]
-            p.nodes_cost = nodes[0] * nodes[1] * nodes[2]
-            instructions = [int(x) for x in instructions.split(' - ')[-1].split('/')]
-            p.instructions = instructions[2]
-            p.instructions_cost = instructions[0] * instructions[1] * instructions[2]
+            for index, key in enumerate(METRICS):
+                if ' - ' in cells[index+1]:
+                    name, score = cells[index+1].split(' - ')
+                else:
+                    name = None
+                    score = cells[index+1]
+                score = [int(x) for x in score.split('/')]
+                setattr(p, key, score[index])
+                setattr(p, '%s_cost' % key, score[0] * score[1] * score[2])
+                setattr(p, '%s_name' % key, name)
             ret.append(p)
     return ret
 

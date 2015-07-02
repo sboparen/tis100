@@ -6,9 +6,10 @@ from lxml.builder import E
 
 
 CHECKMARK = u'\u2713'
+RECORD_HOLDER = u'\u2605'
 
 
-def table(puzzles, records):
+def table(puzzles, records, username):
     columns = ['Segment', 'Cycles', 'Nodes', 'Instructions']
     table = E.table(E.tr(*[E.th(name) for name in columns]))
     for puzzle in puzzles:
@@ -27,6 +28,8 @@ def table(puzzles, records):
                 text = '%d better!' % (best_known - personal_best)
             elif personal_best == best_known:
                 text = CHECKMARK
+                if getattr(puzzle, '%s_name' % key) == username:
+                    text = RECORD_HOLDER
                 costkey = '%s_cost' % key
                 cost = getattr(records[puzzle.number], costkey, None)
                 best_cost = getattr(puzzle, costkey)

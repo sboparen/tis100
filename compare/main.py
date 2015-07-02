@@ -27,7 +27,7 @@ td, th {
 '''
 
 
-def makepage(puzzles, records):
+def makepage(*args, **kwargs):
     now = datetime.datetime.now()
     page_title = 'TIS-100 Comparison'
     content_type = E.meta(
@@ -39,7 +39,7 @@ def makepage(puzzles, records):
         name='viewport', content='width=device-width initial-scale=1'))
     body = E.body()
     body.append(E.h1(page_title))
-    body.append(content.table(puzzles, records))
+    body.append(content.table(*args, **kwargs))
     body.append(E.p('This page was generated\n' +
                 now.strftime('on %A, %d %B %Y at %I:%M:%S %p\n')))
     page = E.html(head, body)
@@ -58,4 +58,4 @@ if __name__ == '__main__':
     records = save.parse(open(path).read(), puzzles=puzzles)
     outpath = os.path.join(os.path.dirname(__file__), 'comparison.html')
     with open(outpath, 'w') as f:
-        f.write(makepage(puzzles, records))
+        f.write(makepage(puzzles, records, os.getenv('USER')))
