@@ -29,9 +29,15 @@ def parse(data):
                 continue
             p.number = name[:name.index(' ')]
             p.name = name[name.index(' ')+1:]
-            p.cycles = int(cycles.split(' - ')[-1].split('/')[0])
-            p.nodes = int(nodes.split(' - ')[-1].split('/')[1])
-            p.instructions = int(instructions.split(' - ')[-1].split('/')[2])
+            cycles = [int(x) for x in cycles.split(' - ')[-1].split('/')]
+            p.cycles = cycles[0]
+            p.cycles_cost = cycles[0] * cycles[1] * cycles[2]
+            nodes = [int(x) for x in nodes.split(' - ')[-1].split('/')]
+            p.nodes = nodes[1]
+            p.nodes_cost = nodes[0] * nodes[1] * nodes[2]
+            instructions = [int(x) for x in instructions.split(' - ')[-1].split('/')]
+            p.instructions = instructions[2]
+            p.instructions_cost = instructions[0] * instructions[1] * instructions[2]
             ret.append(p)
     return ret
 

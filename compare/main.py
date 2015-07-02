@@ -55,7 +55,7 @@ if __name__ == '__main__':
     path = os.path.join(os.path.dirname(__file__), 'reddit.html')
     puzzles = reddit.parse(open(path).read())
     path = os.path.join(os.path.dirname(__file__), 'save.dat')
-    records = save.parse(open(path).read())
+    records = save.parse(open(path).read(), puzzles=puzzles)
     outpath = os.path.join(os.path.dirname(__file__), 'comparison.html')
     with open(outpath, 'w') as f:
         f.write(makepage(puzzles, records))
