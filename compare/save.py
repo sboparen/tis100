@@ -38,7 +38,9 @@ def parse(data, puzzles=None):
                 cost *= solution['instructions']
                 for key in METRICS:
                     if solution[key] == puzzle[key]:
-                        ret[number]['%s_cost' % key] = cost
+                        old_cost = ret[number]['%s_cost' % key]
+                        if old_cost is None or cost < old_cost:
+                            ret[number]['%s_cost' % key] = cost
     return ret
 
 
