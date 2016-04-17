@@ -14,3 +14,10 @@ make cycle optimization quite labour intensive.
 Puzzles which abuse behaviour specific to the game's implementation.
 I believe that each of these puzzles has a valid implementation on
 which it is unsolvable.
+
+**UPDATE:**
+The intended solution to EVERETT CALIBRATOR stopped working when
+testing behaviour was improved in the final version of TIS-100.
+This is a good thing!  However, if you want to try the puzzle as
+it was originally intended, the version here has been modified to
+make all of the fixed test cases the same.

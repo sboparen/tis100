@@ -7,6 +7,7 @@ function get_description()
     return {
         "READ AN X VALUE FROM IN",
         "PLOT A WHITE POINT AT THAT X-COORDINATE ON THE LINE BELOW THE POINT PREVIOUSLY PLOTTED",
+        "THE INPUT HAS EXACTLY 3 VALUES",
     }
 end
 
